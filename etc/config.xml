@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © 2015 ToBai. All rights reserved.
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <tobai_geo_store_switcher>
+            <general>
+                <by_countries>1</by_countries>
+                <country_list>US,UA</country_list>
+                <by_groups>0</by_groups>
+            </general>
+        </tobai_geo_store_switcher>
+    </default>
+</config>

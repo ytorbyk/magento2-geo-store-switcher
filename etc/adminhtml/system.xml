@@ -1,0 +1,76 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © 2015 ToBai. All rights reserved.
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <tab id="tobai" translate="label" sortOrder="500">
+            <label>ToBai</label>
+        </tab>
+        <section id="tobai_geo_store_switcher" translate="label" type="text" sortOrder="100" showInDefault="1" showInWebsite="0" showInStore="0">
+            <label>Geo Store Switcher</label>
+            <tab>tobai</tab>
+            <resource>Tobai_GeoStoreSwitcher::config_geo_store_switcher</resource>
+            <frontend_model>Tobai\GeoStoreSwitcher\Block\Adminhtml\System\Config\Form</frontend_model>
+            <group id="general" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="0" showInStore="0">
+                <label>Store Switcher Configuration</label>
+
+                <field id="active" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Enabled</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+
+                <field id="overwrite_default" translate="label comment" type="select" sortOrder="20" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Overwrite System Default Store View</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment><![CDATA[Is used if neither condition is not satisfied]]></comment>
+                    <depends>
+                        <field id="active">1</field>
+                    </depends>
+                </field>
+                <field id="default_store" translate="label" type="select" sortOrder="25" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Set Default Store View</label>
+                    <source_model>Magento\Store\Model\System\Store</source_model>
+                    <depends>
+                        <field id="active">1</field>
+                        <field id="overwrite_default">1</field>
+                    </depends>
+                </field>
+
+                <field id="mapping_sore" translate="label" type="select" sortOrder="30" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Enable Mapping for Store by Country</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <depends>
+                        <field id="active">1</field>
+                    </depends>
+                </field>
+
+                <field id="by_countries" translate="label" type="select" sortOrder="50" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Set Countries</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <depends>
+                        <field id="active">1</field>
+                    </depends>
+                </field>
+                <field id="country_list" translate="label" type="multiselect" sortOrder="60" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Choose countries</label>
+                    <source_model>Magento\Directory\Model\Config\Source\Country\Full</source_model>
+                    <depends>
+                        <field id="active">1</field>
+                        <field id="by_countries">1</field>
+                    </depends>
+                </field>
+
+                <field id="by_groups" translate="label" type="text" sortOrder="80" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Set number of country groups</label>
+                    <comment>Leave empty or enter 0 for disabling</comment>
+                    <depends>
+                        <field id="active">1</field>
+                    </depends>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>

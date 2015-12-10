@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © 2015 ToBai. All rights reserved.
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <type name="Tobai\GeoStoreSwitcher\Model\Config\System\GroupGeneratorPool">
+        <arguments>
+            <argument name="generators" xsi:type="array">
+                <item name="country" xsi:type="string">Tobai\GeoStoreSwitcher\Model\Config\System\GroupGenerator\Country</item>
+                <item name="group_country" xsi:type="string">Tobai\GeoStoreSwitcher\Model\Config\System\GroupGenerator\GroupCountry</item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="Tobai\GeoStoreSwitcher\Block\Adminhtml\System\Config\Form">
+        <arguments>
+            <argument name="groupGenerator" xsi:type="object">Tobai\GeoStoreSwitcher\Model\Config\System\GroupGeneratorPool</argument>
+        </arguments>
+    </type>
+</config>

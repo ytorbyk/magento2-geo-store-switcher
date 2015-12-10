@@ -1,0 +1,46 @@
+<?php
+/**
+ * Copyright © 2015 ToBai. All rights reserved.
+ */
+namespace Tobai\GeoStoreSwitcher\Plugin\PageCache;
+
+class GeoIdentifier
+{
+    /**
+     * @var \Tobai\GeoStoreSwitcher\Model\Config\General
+     */
+    protected $generalConfig;
+
+    /**
+     * @var \Tobai\GeoStoreSwitcher\Model\GeoStore\Switcher
+     */
+    protected $storeSwitcher;
+
+    /**
+     * @param \Tobai\GeoStoreSwitcher\Model\Config\General $generalConfig
+     * @param \Tobai\GeoStoreSwitcher\Model\GeoStore\Switcher $storeSwitcher
+     */
+    public function __construct(
+        \Tobai\GeoStoreSwitcher\Model\Config\General $generalConfig,
+        \Tobai\GeoStoreSwitcher\Model\GeoStore\Switcher $storeSwitcher
+    ) {
+        $this->generalConfig = $generalConfig;
+        $this->storeSwitcher = $storeSwitcher;
+    }
+
+    /**
+     * Adds a theme key to identifier for a built-in cache if user-agent theme rule is actual
+     *
+     * @param \Magento\Framework\App\PageCache\Identifier $identifier
+     * @param string $result
+     * @return string
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+     */
+    public function afterGetValue(\Magento\Framework\App\PageCache\Identifier $identifier, $result)
+    {
+        if ($this->generalConfig->isActive() && $this->storeSwitcher->getStoreId()) {
+            $result .= $this->storeSwitcher->getStoreId();
+        }
+        return $result;
+    }
+}

@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © 2015 ToBai. All rights reserved.
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Module/etc/module.xs">
+    <module name="Tobai_GeoStoreSwitcher" setup_version="2.0.0">
+        <sequence>
+            <module name="Tobai_GeoIp2"/>
+            <module name="Magento_Store"/>
+        </sequence>
+    </module>
+</config>

@@ -1,0 +1,31 @@
+{
+  "name": "tobai/magento2-geo-store-switcher",
+  "description": "Switching websites/stores depending on current country.",
+  "keywords": ["magento2"],
+  "type": "magento2-module",
+  "version": "1.0.0",
+  "license":["MIT"],
+  "require": {
+    "php": "~5.5.0|~5.6.0|~7.0.0",
+    "magento/magento-composer-installer": "*",
+    "tobai/magento2-geo-ip2": "~1.0.0"
+  },
+  "extra": {
+    "map": [
+      [
+        "*",
+        "Tobai/GeoStoreSwitcher"
+      ]
+    ]
+  },
+  "authors": [
+    {
+      "name": "Yurii Torbyk",
+      "homepage": "http://to-bai.com/"
+    },
+    {
+      "name": "Vitalii Bairak",
+      "homepage": "http://to-bai.com/"
+    }
+  ]
+}
