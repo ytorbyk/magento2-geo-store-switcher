@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright © 2015 ToBai. All rights reserved.
+ * Copyright © 2016 ToBai. All rights reserved.
  */
 namespace Tobai\GeoStoreSwitcher\Model;
 
@@ -63,7 +63,9 @@ class GeoStoreResolver extends \Magento\Store\Model\StoreResolver
      */
     public function getCurrentStoreId()
     {
-        if ($this->generalConfig->isActive() && !$this->isSwitched) {
+        $store = $this->getDefaultStoreById(parent::getCurrentStoreId());
+        $this->generalConfig->setOriginStore($store);
+        if ($this->generalConfig->isAvailable() && !$this->isSwitched) {
             $this->switchScope();
             $this->isSwitched = true;
         }

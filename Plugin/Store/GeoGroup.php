@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright © 2015 ToBai. All rights reserved.
+ * Copyright © 2016 ToBai. All rights reserved.
  */
 namespace Tobai\GeoStoreSwitcher\Plugin\Store;
 
@@ -46,7 +46,7 @@ class GeoGroup
      */
     public function afterGetDefaultStore(Group $subject, Store $store)
     {
-        if ($this->generalConfig->isActive() && $this->storeSwitcher->isInitialized()) {
+        if ($this->generalConfig->isAvailable() && $this->storeSwitcher->isInitialized()) {
             $storeId = $this->storeSwitcher->getStoreId();
             if ($store->getId() != $storeId && in_array($storeId, $subject->getStoreIds())) {
                 $store = $this->storeRepository->getById($storeId);

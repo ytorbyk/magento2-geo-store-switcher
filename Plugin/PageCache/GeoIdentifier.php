@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright © 2015 ToBai. All rights reserved.
+ * Copyright © 2016 ToBai. All rights reserved.
  */
 namespace Tobai\GeoStoreSwitcher\Plugin\PageCache;
 
@@ -38,7 +38,7 @@ class GeoIdentifier
      */
     public function afterGetValue(\Magento\Framework\App\PageCache\Identifier $identifier, $result)
     {
-        if ($this->generalConfig->isActive() && $this->storeSwitcher->getStoreId()) {
+        if ($this->generalConfig->isAvailable() && $this->storeSwitcher->getStoreId()) {
             $result .= $this->storeSwitcher->getStoreId();
         }
         return $result;

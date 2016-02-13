@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright © 2015 ToBai. All rights reserved.
+ * Copyright © 2016 ToBai. All rights reserved.
  */
 
 namespace Tobai\GeoStoreSwitcher\Test\Plugin\Store;
@@ -24,6 +24,11 @@ class GeoWebsiteRepositoryTest extends \PHPUnit_Framework_TestCase
      */
     protected $geoWebsite;
 
+    /**
+     * @var \Tobai\GeoStoreSwitcher\Model\GeoStore\Switcher|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $storeSwitcher;
+
     protected function setUp()
     {
         $this->generalConfig = $this->getMockBuilder('Tobai\GeoStoreSwitcher\Model\Config\General')
@@ -34,19 +39,39 @@ class GeoWebsiteRepositoryTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
+        $this->storeSwitcher = $this->getMockBuilder('Tobai\GeoStoreSwitcher\Model\GeoStore\Switcher')
+            ->disableOriginalConstructor()
+            ->getMock();
+
         $objectManagerHelper = new ObjectManagerHelper($this);
         $this->geoWebsiteRepository = $objectManagerHelper->getObject(
             'Tobai\GeoStoreSwitcher\Plugin\Store\GeoWebsiteRepository',
             [
                 'generalConfig' => $this->generalConfig,
-                'geoWebsite' => $this->geoWebsite
+                'geoWebsite' => $this->geoWebsite,
+                'storeSwitcher' => $this->storeSwitcher
             ]
         );
     }
 
+
+    public function testAfterGetNotInitialized()
+    {
+        $this->setGeneralConfigIsInitialized(false);
+        $this->setGeneralConfigIsAvailable(null);
+
+        $this->geoWebsite->expects($this->never())->method('getId');
+
+        $website = $this->createWebsiteMock();
+        $website->expects($this->never())->method('setIsDefault');
+
+        $this->assertSame($website, $this->geoWebsiteRepository->afterGet($this->createWebsiteRepositoryMock(), $website));
+    }
+
     public function testAfterGetDisabled()
     {
-        $this->setGeneralConfigIsActive(false);
+        $this->setGeneralConfigIsInitialized(true);
+        $this->setGeneralConfigIsAvailable(false);
 
         $this->geoWebsite->expects($this->never())->method('getId');
 
@@ -58,7 +83,8 @@ class GeoWebsiteRepositoryTest extends \PHPUnit_Framework_TestCase
 
     public function testAfterGetWebsiteFalse()
     {
-        $this->setGeneralConfigIsActive(true);
+        $this->setGeneralConfigIsInitialized(true);
+        $this->setGeneralConfigIsAvailable(true);
 
         $this->setGeoWebsiteId(false);
 
@@ -76,7 +102,8 @@ class GeoWebsiteRepositoryTest extends \PHPUnit_Framework_TestCase
      */
     public function testAfterGet($geoWebsiteId, $websiteId, $isDefault)
     {
-        $this->setGeneralConfigIsActive(true);
+        $this->setGeneralConfigIsInitialized(true);
+        $this->setGeneralConfigIsAvailable(true);
 
         $this->setGeoWebsiteId($geoWebsiteId);
 
@@ -101,9 +128,23 @@ class GeoWebsiteRepositoryTest extends \PHPUnit_Framework_TestCase
     }
 
 
+    public function testAfterGetByIdNotInitialized()
+    {
+        $this->setGeneralConfigIsInitialized(false);
+        $this->setGeneralConfigIsAvailable(null);
+
+        $this->geoWebsite->expects($this->never())->method('getId');
+
+        $website = $this->createWebsiteMock();
+        $website->expects($this->never())->method('setIsDefault');
+
+        $this->assertSame($website, $this->geoWebsiteRepository->afterGetById($this->createWebsiteRepositoryMock(), $website));
+    }
+
     public function testAfterGetByIdDisabled()
     {
-        $this->setGeneralConfigIsActive(false);
+        $this->setGeneralConfigIsInitialized(true);
+        $this->setGeneralConfigIsAvailable(false);
 
         $this->geoWebsite->expects($this->never())->method('getId');
 
@@ -115,7 +156,8 @@ class GeoWebsiteRepositoryTest extends \PHPUnit_Framework_TestCase
 
     public function testAfterGetByIdWebsiteFalse()
     {
-        $this->setGeneralConfigIsActive(true);
+        $this->setGeneralConfigIsInitialized(true);
+        $this->setGeneralConfigIsAvailable(true);
 
         $this->setGeoWebsiteId(false);
 
@@ -133,7 +175,8 @@ class GeoWebsiteRepositoryTest extends \PHPUnit_Framework_TestCase
      */
     public function testAfterGetById($geoWebsiteId, $websiteId, $isDefault)
     {
-        $this->setGeneralConfigIsActive(true);
+        $this->setGeneralConfigIsInitialized(true);
+        $this->setGeneralConfigIsAvailable(true);
 
         $this->setGeoWebsiteId($geoWebsiteId);
 
@@ -158,9 +201,28 @@ class GeoWebsiteRepositoryTest extends \PHPUnit_Framework_TestCase
     }
 
 
+    public function testAfterGetListNotInitialized()
+    {
+        $this->setGeneralConfigIsInitialized(false);
+        $this->setGeneralConfigIsAvailable(null);
+
+        $this->geoWebsite->expects($this->never())->method('getId');
+
+        $website1 = $this->createWebsiteMock();
+        $website1->expects($this->never())->method('setIsDefault');
+
+        $website2 = $this->createWebsiteMock();
+        $website2->expects($this->never())->method('setIsDefault');
+
+        $websiteList = [$website1, $website2];
+
+        $this->assertSame($websiteList, $this->geoWebsiteRepository->afterGetList($this->createWebsiteRepositoryMock(), $websiteList));
+    }
+
     public function testAfterGetListDisabled()
     {
-        $this->setGeneralConfigIsActive(false);
+        $this->setGeneralConfigIsInitialized(true);
+        $this->setGeneralConfigIsAvailable(false);
 
         $this->geoWebsite->expects($this->never())->method('getId');
 
@@ -177,7 +239,8 @@ class GeoWebsiteRepositoryTest extends \PHPUnit_Framework_TestCase
 
     public function testAfterGetListWebsiteFalse()
     {
-        $this->setGeneralConfigIsActive(true);
+        $this->setGeneralConfigIsInitialized(true);
+        $this->setGeneralConfigIsAvailable(true);
 
         $this->setGeoWebsiteId(false);
 
@@ -202,7 +265,8 @@ class GeoWebsiteRepositoryTest extends \PHPUnit_Framework_TestCase
      */
     public function testAfterGetList($geoWebsiteId, $websiteId1, $isDefault1, $websiteId2, $isDefault2)
     {
-        $this->setGeneralConfigIsActive(true);
+        $this->setGeneralConfigIsInitialized(true);
+        $this->setGeneralConfigIsAvailable(true);
 
         $this->setGeoWebsiteId($geoWebsiteId);
 
@@ -235,9 +299,24 @@ class GeoWebsiteRepositoryTest extends \PHPUnit_Framework_TestCase
     }
 
 
+    public function testAfterGetDefaultNotInitialized()
+    {
+        $this->setGeneralConfigIsInitialized(false);
+        $this->setGeneralConfigIsAvailable(null);
+
+        $this->geoWebsite->expects($this->never())->method('getId');
+
+        $website = $this->createWebsiteMock();
+
+        $websiteRepository = $this->createWebsiteRepositoryMock();
+        $websiteRepository->expects($this->never())->method('getById');
+        $this->assertSame($website, $this->geoWebsiteRepository->afterGetDefault($websiteRepository, $website));
+    }
+
     public function testAfterGetDefaultDisabled()
     {
-        $this->setGeneralConfigIsActive(false);
+        $this->setGeneralConfigIsInitialized(true);
+        $this->setGeneralConfigIsAvailable(false);
 
         $this->geoWebsite->expects($this->never())->method('getId');
 
@@ -250,7 +329,8 @@ class GeoWebsiteRepositoryTest extends \PHPUnit_Framework_TestCase
 
     public function testAfterGetDefaultWebsiteFalse()
     {
-        $this->setGeneralConfigIsActive(true);
+        $this->setGeneralConfigIsInitialized(true);
+        $this->setGeneralConfigIsAvailable(true);
 
         $this->setGeoWebsiteId(false);
 
@@ -265,7 +345,8 @@ class GeoWebsiteRepositoryTest extends \PHPUnit_Framework_TestCase
     {
         $geoWebsiteId = $websiteId = 2;
 
-        $this->setGeneralConfigIsActive(true);
+        $this->setGeneralConfigIsInitialized(true);
+        $this->setGeneralConfigIsAvailable(true);
 
         $this->setGeoWebsiteId($geoWebsiteId);
 
@@ -281,7 +362,8 @@ class GeoWebsiteRepositoryTest extends \PHPUnit_Framework_TestCase
         $geoWebsiteId = 2;
         $websiteId = 3;
 
-        $this->setGeneralConfigIsActive(true);
+        $this->setGeneralConfigIsInitialized(true);
+        $this->setGeneralConfigIsAvailable(true);
 
         $this->setGeoWebsiteId($geoWebsiteId);
 
@@ -298,12 +380,24 @@ class GeoWebsiteRepositoryTest extends \PHPUnit_Framework_TestCase
         $this->assertSame($geoWebsite, $this->geoWebsiteRepository->afterGetDefault($websiteRepository, $website));
     }
 
-
-    protected function setGeneralConfigIsActive($isActive)
+    protected function setGeneralConfigIsInitialized($isInitialized)
     {
-        $this->generalConfig->expects($this->once())
-            ->method('isActive')
-            ->willReturn($isActive);
+        $this->storeSwitcher->expects($this->once())
+            ->method('isInitialized')
+            ->willReturn($isInitialized);
+
+        return $this->storeSwitcher;
+    }
+
+    protected function setGeneralConfigIsAvailable($isAvailable)
+    {
+        if (null === $isAvailable) {
+            $this->generalConfig->expects($this->never())->method('isAvailable');
+        } else {
+            $this->generalConfig->expects($this->once())
+                ->method('isAvailable')
+                ->willReturn($isAvailable);
+        }
 
         return $this->generalConfig;
     }

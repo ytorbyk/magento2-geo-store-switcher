@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright © 2015 ToBai. All rights reserved.
+ * Copyright © 2016 ToBai. All rights reserved.
  */
 namespace Tobai\GeoStoreSwitcher\Block\Adminhtml\System\Config;
 

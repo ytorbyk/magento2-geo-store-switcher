@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!--
 /**
- * Copyright © 2015 ToBai. All rights reserved.
+ * Copyright © 2016 ToBai. All rights reserved.
  */
 -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
@@ -9,20 +9,40 @@
         <tab id="tobai" translate="label" sortOrder="500">
             <label>ToBai</label>
         </tab>
-        <section id="tobai_geo_store_switcher" translate="label" type="text" sortOrder="100" showInDefault="1" showInWebsite="0" showInStore="0">
+        <section id="tobai_geo_store_switcher" translate="label" type="text" sortOrder="100" showInDefault="1" showInWebsite="1" showInStore="1">
             <label>Geo Store Switcher</label>
             <tab>tobai</tab>
             <resource>Tobai_GeoStoreSwitcher::config_geo_store_switcher</resource>
             <frontend_model>Tobai\GeoStoreSwitcher\Block\Adminhtml\System\Config\Form</frontend_model>
-            <group id="general" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="0" showInStore="0">
+            <group id="general" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
                 <label>Store Switcher Configuration</label>
 
-                <field id="active" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="0" showInStore="0">
+                <field id="active" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Enabled</label>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                 </field>
 
-                <field id="overwrite_default" translate="label comment" type="select" sortOrder="20" showInDefault="1" showInWebsite="0" showInStore="0">
+                <field id="white_ips" translate="label comment" type="text" sortOrder="15" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Disable for IPs</label>
+                    <comment>Comma separated</comment>
+                    <backend_model>Magento\Developer\Model\Config\Backend\AllowedIps</backend_model>
+                    <depends>
+                        <field id="active">1</field>
+                    </depends>
+                </field>
+
+                <field id="white_ua" translate="label comment" type="text" sortOrder="16" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Disable for User-Agent</label>
+                    <comment>
+                        <![CDATA[Enter regular expression (PCRE). Example:<br /><span style="font-family:monospace">/^mozilla/i</span>]]>
+                    </comment>
+                    <backend_model>Tobai\GeoStoreSwitcher\Model\Config\Backend\Regexp</backend_model>
+                    <depends>
+                        <field id="active">1</field>
+                    </depends>
+                </field>
+
+                <field id="overwrite_default" translate="label comment" type="select" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Overwrite System Default Store View</label>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                     <comment><![CDATA[Is used if neither condition is not satisfied]]></comment>
@@ -30,16 +50,16 @@
                         <field id="active">1</field>
                     </depends>
                 </field>
-                <field id="default_store" translate="label" type="select" sortOrder="25" showInDefault="1" showInWebsite="0" showInStore="0">
+                <field id="default_store" translate="label" type="select" sortOrder="25" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Set Default Store View</label>
-                    <source_model>Magento\Store\Model\System\Store</source_model>
+                    <source_model>Tobai\GeoStoreSwitcher\Model\Config\Source\Store</source_model>
                     <depends>
                         <field id="active">1</field>
                         <field id="overwrite_default">1</field>
                     </depends>
                 </field>
 
-                <field id="mapping_sore" translate="label" type="select" sortOrder="30" showInDefault="1" showInWebsite="0" showInStore="0">
+                <field id="mapping_sore" translate="label" type="select" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Enable Mapping for Store by Country</label>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                     <depends>
@@ -47,14 +67,14 @@
                     </depends>
                 </field>
 
-                <field id="by_countries" translate="label" type="select" sortOrder="50" showInDefault="1" showInWebsite="0" showInStore="0">
+                <field id="by_countries" translate="label" type="select" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Set Countries</label>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                     <depends>
                         <field id="active">1</field>
                     </depends>
                 </field>
-                <field id="country_list" translate="label" type="multiselect" sortOrder="60" showInDefault="1" showInWebsite="0" showInStore="0">
+                <field id="country_list" translate="label" type="multiselect" sortOrder="60" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Choose countries</label>
                     <source_model>Magento\Directory\Model\Config\Source\Country\Full</source_model>
                     <depends>
@@ -63,7 +83,7 @@
                     </depends>
                 </field>
 
-                <field id="by_groups" translate="label" type="text" sortOrder="80" showInDefault="1" showInWebsite="0" showInStore="0">
+                <field id="by_groups" translate="label" type="text" sortOrder="80" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Set number of country groups</label>
                     <comment>Leave empty or enter 0 for disabling</comment>
                     <depends>

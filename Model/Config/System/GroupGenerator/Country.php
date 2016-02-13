@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright © 2015 ToBai. All rights reserved.
+ * Copyright © 2016 ToBai. All rights reserved.
  */
 namespace Tobai\GeoStoreSwitcher\Model\Config\System\GroupGenerator;
 
@@ -46,8 +46,8 @@ class Country extends System\GroupGeneratorAbstract implements System\GroupGener
                 'label' => $this->getCountry($countryCode)->getName(),
                 'path' => 'tobai_geo_store_switcher',
                 'showInDefault' => '1',
+                'showInWebsite' => '1',
                 'showInStore' => '0',
-                'showInWebsite' => '0',
                 'sortOrder' => $sortOrder++,
                 'type' => 'text',
                 'children' => [
@@ -57,10 +57,10 @@ class Country extends System\GroupGeneratorAbstract implements System\GroupGener
                         'label' => (string)__('Set Store View'),
                         'path' => 'tobai_geo_store_switcher/' . $countryCode,
                         'showInDefault' => '1',
+                        'showInWebsite' => '1',
                         'showInStore' => '0',
-                        'showInWebsite' => '0',
                         'sortOrder' => '1',
-                        'source_model' => 'Magento\Store\Model\System\Store',
+                        'source_model' => 'Tobai\GeoStoreSwitcher\Model\Config\Source\Store',
                         'type' => 'select',
                         'depends' => [
                             'fields' => [

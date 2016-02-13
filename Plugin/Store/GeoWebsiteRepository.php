@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright © 2015 ToBai. All rights reserved.
+ * Copyright © 2016 ToBai. All rights reserved.
  */
 namespace Tobai\GeoStoreSwitcher\Plugin\Store;
 
@@ -20,15 +20,33 @@ class GeoWebsiteRepository
     protected $geoWebsite;
 
     /**
+     * @var \Tobai\GeoStoreSwitcher\Model\GeoStore\Switcher
+     */
+    protected $storeSwitcher;
+
+    /**
      * @param \Tobai\GeoStoreSwitcher\Model\Config\General $generalConfig
      * @param \Tobai\GeoStoreSwitcher\Model\GeoWebsite $geoWebsite
+     * @param \Tobai\GeoStoreSwitcher\Model\GeoStore\Switcher $storeSwitcher
      */
     public function __construct(
         \Tobai\GeoStoreSwitcher\Model\Config\General $generalConfig,
-        \Tobai\GeoStoreSwitcher\Model\GeoWebsite $geoWebsite
+        \Tobai\GeoStoreSwitcher\Model\GeoWebsite $geoWebsite,
+        \Tobai\GeoStoreSwitcher\Model\GeoStore\Switcher $storeSwitcher
     ) {
         $this->generalConfig = $generalConfig;
         $this->geoWebsite = $geoWebsite;
+        $this->storeSwitcher = $storeSwitcher;
+    }
+
+    /**
+     * @return bool
+     */
+    protected function isNeededProcess()
+    {
+        return $this->storeSwitcher->isInitialized()
+            && $this->generalConfig->isAvailable()
+            && $this->geoWebsite->getId() !== false;
     }
 
     /**
@@ -38,7 +56,7 @@ class GeoWebsiteRepository
      */
     public function afterGet(WebsiteRepository $subject, Website $website)
     {
-        if ($this->generalConfig->isActive() && $this->geoWebsite->getId() !== false) {
+        if ($this->isNeededProcess()) {
             $website->setIsDefault($this->geoWebsite->getId() == $website->getId());
         }
         return $website;
@@ -51,7 +69,7 @@ class GeoWebsiteRepository
      */
     public function afterGetById(WebsiteRepository $subject, Website $website)
     {
-        if ($this->generalConfig->isActive() && $this->geoWebsite->getId() !== false) {
+        if ($this->isNeededProcess()) {
             $website->setIsDefault($this->geoWebsite->getId() == $website->getId());
         }
         return $website;
@@ -64,7 +82,7 @@ class GeoWebsiteRepository
      */
     public function afterGetList(WebsiteRepository $subject, array $websiteList)
     {
-        if ($this->generalConfig->isActive() && $this->geoWebsite->getId() !== false) {
+        if ($this->isNeededProcess()) {
             foreach ($websiteList as $website) {
                 $website->setIsDefault($this->geoWebsite->getId() == $website->getId());
             }
@@ -79,7 +97,7 @@ class GeoWebsiteRepository
      */
     public function afterGetDefault(WebsiteRepository $subject, Website $website)
     {
-        if (!$this->generalConfig->isActive() || $this->geoWebsite->getId() === false) {
+        if (!$this->isNeededProcess()) {
             return $website;
         }
 

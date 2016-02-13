@@ -1,25 +1,62 @@
 <?php
 /**
- * Copyright © 2015 ToBai. All rights reserved.
+ * Copyright © 2016 ToBai. All rights reserved.
  */
 namespace Tobai\GeoStoreSwitcher\Model\Config;
 
-use Magento\Framework\App\Config\ScopeConfigInterface;
+use Magento\Store\Api\Data\StoreInterface;
 
 class General
 {
     /**
-     * @var \Magento\Framework\App\Config\ScopeConfigInterface
+     * @var \Tobai\GeoStoreSwitcher\Model\Config\ScopeConfig
      */
     protected $scopeConfig;
 
     /**
-     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
+     * @var \Tobai\GeoStoreSwitcher\Helper\Config\AppState
+     */
+    protected $appStateHelper;
+
+    /**
+     * @var \Tobai\GeoStoreSwitcher\Helper\Config\Request
+     */
+    protected $requestHelper;
+
+    /**
+     * @param \Tobai\GeoStoreSwitcher\Model\Config\ScopeConfig $scopeConfig
+     * @param \Tobai\GeoStoreSwitcher\Helper\Config\AppState $appStateHelper
+     * @param \Tobai\GeoStoreSwitcher\Helper\Config\Request $requestHelper
      */
     public function __construct(
-        ScopeConfigInterface $scopeConfig
+        \Tobai\GeoStoreSwitcher\Model\Config\ScopeConfig $scopeConfig,
+        \Tobai\GeoStoreSwitcher\Helper\Config\AppState $appStateHelper,
+        \Tobai\GeoStoreSwitcher\Helper\Config\Request $requestHelper
     ) {
         $this->scopeConfig = $scopeConfig;
+        $this->appStateHelper = $appStateHelper;
+        $this->requestHelper = $requestHelper;
+    }
+
+    /**
+     * @param \Magento\Store\Api\Data\StoreInterface $store
+     * @return $this
+     */
+    public function setOriginStore(StoreInterface $store)
+    {
+        $this->scopeConfig->setOriginStore($store);
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isAvailable()
+    {
+        return $this->appStateHelper->isFrontendArea()
+            && !$this->requestHelper->isCurrentIp($this->getWhiteIps())
+            && !$this->requestHelper->isCurrentUserAgent($this->getWhiteUa())
+            && $this->isActive();
     }
 
     /**
@@ -27,7 +64,24 @@ class General
      */
     public function isActive()
     {
-        return $this->scopeConfig->isSetFlag('tobai_geo_store_switcher/general/active');
+        return $this->scopeConfig->getFrontendStoreOrBackendValue('tobai_geo_store_switcher/general/active');
+    }
+
+    /**
+     * @return array
+     */
+    public function getWhiteIps()
+    {
+        $whiteIps = $this->scopeConfig->getStoreValue('tobai_geo_store_switcher/general/white_ips');
+        return !empty($whiteIps) ? preg_split('#\s*,\s*#', $whiteIps, null, PREG_SPLIT_NO_EMPTY) : [];
+    }
+
+    /**
+     * @return string
+     */
+    public function getWhiteUa()
+    {
+        return $this->scopeConfig->getStoreValue('tobai_geo_store_switcher/general/white_ua');
     }
 
     /**
@@ -35,7 +89,7 @@ class General
      */
     public function isOverwriteDefault()
     {
-        return $this->scopeConfig->isSetFlag('tobai_geo_store_switcher/general/overwrite_default');
+        return (bool)$this->scopeConfig->getWebsiteValue('tobai_geo_store_switcher/general/overwrite_default');
     }
 
     /**
@@ -44,7 +98,7 @@ class General
     public function getDefaultStore()
     {
         return $this->isOverwriteDefault()
-            ? $this->scopeConfig->getValue('tobai_geo_store_switcher/general/default_store')
+            ? $this->scopeConfig->getWebsiteValue('tobai_geo_store_switcher/general/default_store')
             : false;
     }
 
@@ -53,7 +107,7 @@ class General
      */
     public function isMappingSore()
     {
-        return $this->scopeConfig->isSetFlag('tobai_geo_store_switcher/general/mapping_sore');
+        return (bool)$this->scopeConfig->getWebsiteValue('tobai_geo_store_switcher/general/mapping_sore');
     }
 
     /**
@@ -61,7 +115,8 @@ class General
      */
     public function isCountries()
     {
-        return $this->scopeConfig->isSetFlag('tobai_geo_store_switcher/general/by_countries');
+        return $this->isActive()
+            && $this->scopeConfig->getFrontendWebsiteOrBackendValue('tobai_geo_store_switcher/general/by_countries');
     }
 
     /**
@@ -69,7 +124,7 @@ class General
      */
     public function getCountryList()
     {
-        $countriesData = $this->scopeConfig->getValue('tobai_geo_store_switcher/general/country_list');
+        $countriesData = $this->scopeConfig->getFrontendWebsiteOrBackendValue('tobai_geo_store_switcher/general/country_list');
         $countries = $this->isCountries() && !empty($countriesData) ? explode(',', $countriesData) : [];
         return $countries;
     }
@@ -80,7 +135,7 @@ class General
      */
     public function getCountryStore($countryCode)
     {
-        return $this->scopeConfig->getValue("tobai_geo_store_switcher/{$countryCode}/store");
+        return $this->scopeConfig->getWebsiteValue("tobai_geo_store_switcher/{$countryCode}/store");
     }
 
     /**
@@ -88,7 +143,9 @@ class General
      */
     public function getGroupCount()
     {
-        return (int)$this->scopeConfig->getValue('tobai_geo_store_switcher/general/by_groups');
+        return $this->isActive()
+            ? (int)$this->scopeConfig->getFrontendWebsiteOrBackendValue('tobai_geo_store_switcher/general/by_groups')
+            : 0;
     }
 
     /**
@@ -97,7 +154,7 @@ class General
      */
     public function getGroupCountryList($group)
     {
-        $countriesData = $this->scopeConfig->getValue("tobai_geo_store_switcher/group_{$group}/country_list");
+        $countriesData = $this->scopeConfig->getFrontendWebsiteOrBackendValue("tobai_geo_store_switcher/group_{$group}/country_list");
         $countries = !empty($countriesData) ? explode(',', $countriesData) : [];
         return $countries;
     }
@@ -108,6 +165,6 @@ class General
      */
     public function getGroupStore($group)
     {
-        return $this->scopeConfig->getValue("tobai_geo_store_switcher/group_{$group}/store");
+        return $this->scopeConfig->getWebsiteValue("tobai_geo_store_switcher/group_{$group}/store");
     }
 }

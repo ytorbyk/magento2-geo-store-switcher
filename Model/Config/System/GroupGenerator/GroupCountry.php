@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright © 2015 ToBai. All rights reserved.
+ * Copyright © 2016 ToBai. All rights reserved.
  */
 namespace Tobai\GeoStoreSwitcher\Model\Config\System\GroupGenerator;
 
@@ -24,8 +24,8 @@ class GroupCountry extends System\GroupGeneratorAbstract implements System\Group
                 'label' => (string)__('Group #%1 Configuration', $group),
                 'path' => 'tobai_geo_store_switcher',
                 'showInDefault' => '1',
+                'showInWebsite' => '1',
                 'showInStore' => '0',
-                'showInWebsite' => '0',
                 'sortOrder' => $sortOrder++,
                 'type' => 'text',
                 'children' => [
@@ -35,8 +35,8 @@ class GroupCountry extends System\GroupGeneratorAbstract implements System\Group
                         'label' => (string)__('Choose countries'),
                         'path' => 'tobai_geo_store_switcher/' . $groupId,
                         'showInDefault' => '1',
+                        'showInWebsite' => '1',
                         'showInStore' => '0',
-                        'showInWebsite' => '0',
                         'sortOrder' => '1',
                         'source_model' => 'Magento\Directory\Model\Config\Source\Country\Full',
                         'type' => 'multiselect',
@@ -61,10 +61,10 @@ class GroupCountry extends System\GroupGeneratorAbstract implements System\Group
                         'label' => (string)__('Set Store View'),
                         'path' => 'tobai_geo_store_switcher/' . $groupId,
                         'showInDefault' => '1',
+                        'showInWebsite' => '1',
                         'showInStore' => '0',
-                        'showInWebsite' => '0',
                         'sortOrder' => '1',
-                        'source_model' => 'Magento\Store\Model\System\Store',
+                        'source_model' => 'Tobai\GeoStoreSwitcher\Model\Config\Source\Store',
                         'type' => 'select',
                         'depends' => [
                             'fields' => [

@@ -1,10 +1,8 @@
 <?php
 /**
- * Copyright © 2015 ToBai. All rights reserved.
+ * Copyright © 2016 ToBai. All rights reserved.
  */
 namespace Tobai\GeoStoreSwitcher\Model\Config\Source;
-
-use Magento\Store;
 
 class Website implements \Magento\Framework\Option\ArrayInterface
 {
@@ -17,7 +15,7 @@ class Website implements \Magento\Framework\Option\ArrayInterface
      * @param \Magento\Store\Model\System\Store $store
      */
     public function __construct(
-        Store\Model\System\Store $store
+        \Magento\Store\Model\System\Store $store
     ) {
         $this->store = $store;
     }

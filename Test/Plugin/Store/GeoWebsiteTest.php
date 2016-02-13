@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright © 2015 ToBai. All rights reserved.
+ * Copyright © 2016 ToBai. All rights reserved.
  */
 
 namespace Tobai\GeoStoreSwitcher\Test\Plugin\Store;
@@ -55,7 +55,7 @@ class GeoWebsiteTest extends \PHPUnit_Framework_TestCase
     public function testAfterGetDefaultStoreNotActive()
     {
         $this->generalConfig->expects($this->once())
-            ->method('isActive')
+            ->method('isAvailable')
             ->willReturn(false);
 
         $this->storeSwitcher->expects($this->never())->method('isInitialized');
@@ -80,7 +80,7 @@ class GeoWebsiteTest extends \PHPUnit_Framework_TestCase
     public function testAfterGetDefaultStoreNotInitialized()
     {
         $this->generalConfig->expects($this->once())
-            ->method('isActive')
+            ->method('isAvailable')
             ->willReturn(true);
 
         $this->storeSwitcher->expects($this->once())
@@ -112,7 +112,7 @@ class GeoWebsiteTest extends \PHPUnit_Framework_TestCase
         $geoStoreId = 2;
 
         $this->generalConfig->expects($this->once())
-            ->method('isActive')
+            ->method('isAvailable')
             ->willReturn(true);
 
         $this->storeSwitcher->expects($this->once())
@@ -152,7 +152,7 @@ class GeoWebsiteTest extends \PHPUnit_Framework_TestCase
         $geoStoreId = 1;
 
         $this->generalConfig->expects($this->once())
-            ->method('isActive')
+            ->method('isAvailable')
             ->willReturn(true);
 
         $this->storeSwitcher->expects($this->once())
@@ -184,7 +184,7 @@ class GeoWebsiteTest extends \PHPUnit_Framework_TestCase
         $geoStoreId = 2;
 
         $this->generalConfig->expects($this->once())
-            ->method('isActive')
+            ->method('isAvailable')
             ->willReturn(true);
 
         $this->storeSwitcher->expects($this->once())

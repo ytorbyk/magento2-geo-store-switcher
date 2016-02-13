@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright © 2015 ToBai. All rights reserved.
+ * Copyright © 2016 ToBai. All rights reserved.
  */
 
 namespace Tobai\GeoStoreSwitcher\Test\Plugin\PageCache;
@@ -49,7 +49,7 @@ class GeoIdentifierTest extends \PHPUnit_Framework_TestCase
         $identifierValue = 'some_str';
 
         $this->generalConfig->expects($this->once())
-            ->method('isActive')
+            ->method('isAvailable')
             ->willReturn(false);
 
         $this->storeSwitcher->expects($this->never())->method('getStoreId');
@@ -71,7 +71,7 @@ class GeoIdentifierTest extends \PHPUnit_Framework_TestCase
     public function testAfterGetValue($storeId, $identifierValue, $geoIdentifierValue)
     {
         $this->generalConfig->expects($this->once())
-            ->method('isActive')
+            ->method('isAvailable')
             ->willReturn(true);
 
         $this->storeSwitcher->expects($this->atLeastOnce())
