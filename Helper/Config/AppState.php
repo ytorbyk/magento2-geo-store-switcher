@@ -32,7 +32,7 @@ class AppState
             }
         } catch (LocalizedException $e) {
             /* Area is not initialized. Do nothing. */
-            return false;
+            return true;
         }
         return true;
     }

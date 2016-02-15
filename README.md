@@ -14,7 +14,7 @@ Please follow next instructions to successfully install ToBai Geo Store Switcher
 
 2. Add extension to composer require section using this command:
 
-        composer require tobai/magento2-geo-store-switcher ~1.1.0
+        composer require tobai/magento2-geo-store-switcher
 
 3. Enable module and upgrade with this commands:
 
@@ -49,3 +49,7 @@ Before enabling cache you may compile DI. For compiling run command (before and 
 - Added support of website scope for all configuration.
 
 - Added ability to disable module for specific IPs and/or user agents.
+
+<h3>v1.1.1</h3>
+
+- Bug: no redirect from non-base url.
