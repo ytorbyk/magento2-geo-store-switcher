@@ -1,6 +1,6 @@
 <h2>Welcome</h2>
 
-ToBai Geo Store Switcher is a Magento 2 extension. It improves shopping experience on you Magento 2 Store. The module switches to the corresponding Website or Store View and your customers always get correct language locale, can use the currency which best suites them, get correct shipping rates and taxes. ToBai Geo Store Switcher extension uses MaxMind technology which accurately detects geo location of the customer by IP.
+ToBai Geo Store Switcher is a Magento 2 extension. It improves shopping experience on your Magento 2 Store. The module switches to the corresponding Website or Store View and your customers always get correct language locale, can use the currency which best suites them, get correct shipping rates and taxes. ToBai Geo Store Switcher extension uses MaxMind technology which accurately detects geo location of the customer by IP.
 
 More information about the extension you can find at this page - <a href="http://www.to-bai.com/magento-2-extensions/geo-store-switcher.html" target="_blank">http://www.to-bai.com/magento-2-extensions/geo-store-switcher.html</a>
 
