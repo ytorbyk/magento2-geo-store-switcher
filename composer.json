@@ -18,7 +18,8 @@
   "autoload": {
     "files": ["registration.php"],
     "psr-4": {
-    "Tobai\\GeoStoreSwitcher\\": ""
+      "Tobai\\GeoStoreSwitcher\\": ""
+    }
   },
   "authors": [
     {
