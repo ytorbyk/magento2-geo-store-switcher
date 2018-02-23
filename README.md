@@ -2,8 +2,6 @@
 
 ToBai Geo Store Switcher is a Magento 2 extension. It improves shopping experience on your Magento 2 Store. The module switches to the corresponding Website or Store View and your customers always get correct language locale, can use the currency which best suites them, get correct shipping rates and taxes. ToBai Geo Store Switcher extension uses MaxMind technology which accurately detects geo location of the customer by IP.
 
-More information about the extension you can find at this page - <a href="http://www.to-bai.com/magento-2-extensions/geo-store-switcher.html" target="_blank">http://www.to-bai.com/magento-2-extensions/geo-store-switcher.html</a>
-
 <h2>Installation</h2>
 
 Please follow next instructions to successfully install ToBai Geo Store Switcher in your Magento 2 store.
@@ -18,7 +16,8 @@ Please follow next instructions to successfully install ToBai Geo Store Switcher
 
 3. Enable module and upgrade with this commands:
 
-        bin/magento module:enable --clear-static-content Tobai_GeoStoreSwitcher
+        bin/magento module:enable Tobai_GeoIp2
+        bin/magento module:enable Tobai_GeoStoreSwitcher
         bin/magento setup:upgrade
 
 4. Check under Stores->Configuration->Advanced->Advanced that the module ToBai_GeoStoreSwitcher is present. There also should be present ToBai_GeoIP2 extension which installs automatically. ToBai Geo Store Switcher is depended on ToBai GeoIP2 extension. If ToBai_GeoStoreSwitcher and ToBai_GeoIP2 display in alphabetical order, you successfully installed the reference module!
@@ -30,10 +29,9 @@ Please follow next instructions to successfully install ToBai Geo Store Switcher
 
 Now you should see at Stores > Configuration new ToBai tab. When you click at this tab you will see Geo Store Switcher section.
 
-Before enabling cache you may compile DI. For compiling run command (before and after "var/di" directory must be deleted):
+<h2>Important</h2>
 
-    bin/magento setup:di:compile
-
+Since the Store Switcher extension depends on <a href="https://github.com/ytorbyk/magento2-geo-ip2">ToBai_GeoIP2</a> it should be configured previously.
 
 
 <h2>Release notes:</h2>
@@ -53,3 +51,8 @@ Before enabling cache you may compile DI. For compiling run command (before and 
 <h3>v1.1.1</h3>
 
 - Bug: no redirect from non-base url.
+
+<h3>v2.0.0</h3>
+
+- Refactored the extension.
+- Removed overwriting default store/store group/website.
