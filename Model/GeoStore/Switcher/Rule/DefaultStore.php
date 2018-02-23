@@ -4,20 +4,18 @@
  */
 namespace Tobai\GeoStoreSwitcher\Model\GeoStore\Switcher\Rule;
 
-use Tobai\GeoStoreSwitcher\Model;
-
-class DefaultStore implements Model\GeoStore\Switcher\RuleInterface
+class DefaultStore implements \Tobai\GeoStoreSwitcher\Model\GeoStore\Switcher\RuleInterface
 {
     /**
      * @var \Tobai\GeoStoreSwitcher\Model\Config\General
      */
-    protected $generalConfig;
+    private $generalConfig;
 
     /**
      * @param \Tobai\GeoStoreSwitcher\Model\Config\General $generalConfig
      */
     public function __construct(
-        Model\Config\General $generalConfig
+        \Tobai\GeoStoreSwitcher\Model\Config\General $generalConfig
     ) {
         $this->generalConfig = $generalConfig;
     }
@@ -25,6 +23,8 @@ class DefaultStore implements Model\GeoStore\Switcher\RuleInterface
     /**
      * @param string $countryCode
      * @return int|bool
+     *
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function getStoreId($countryCode)
     {

@@ -4,26 +4,25 @@
  */
 namespace Tobai\GeoStoreSwitcher\Model\GeoStore\Switcher;
 
-use Magento\Framework\ObjectManagerInterface;
-use Tobai\GeoStoreSwitcher\Model;
+use Tobai\GeoStoreSwitcher\Model\GeoStore\Switcher\RuleInterface as SwitcherRuleInterface;
 
 class RuleFactory
 {
     /**
      * @var \Magento\Framework\ObjectManagerInterface
      */
-    protected $objectManager;
+    private $objectManager;
 
     /**
      * @param \Magento\Framework\ObjectManagerInterface $objectManager
      */
-    public function __construct(ObjectManagerInterface $objectManager)
-    {
+    public function __construct(
+        \Magento\Framework\ObjectManagerInterface $objectManager
+    ) {
         $this->objectManager = $objectManager;
     }
 
     /**
-     *
      * @param string $className
      * @param array $data
      * @return \Tobai\GeoStoreSwitcher\Model\GeoStore\Switcher\RuleInterface
@@ -32,10 +31,8 @@ class RuleFactory
     public function create($className, array $data = [])
     {
         $rule = $this->objectManager->create($className, $data);
-        if (!$rule instanceof Model\GeoStore\Switcher\RuleInterface) {
-            throw new \InvalidArgumentException(
-                $className . ' doesn\'t implement \Tobai\GeoStoreSwitcher\Model\Store\Switcher\RuleInterface'
-            );
+        if (!$rule instanceof SwitcherRuleInterface) {
+            throw new \InvalidArgumentException($className . ' doesn\'t implement ' . SwitcherRuleInterface::class);
         }
         return $rule;
     }

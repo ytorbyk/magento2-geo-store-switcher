@@ -4,9 +4,6 @@
  */
 namespace Tobai\GeoStoreSwitcher\Model\Config\System;
 
-use Magento\Framework\ObjectManagerInterface;
-use Tobai\GeoStoreSwitcher\Model;
-
 class GroupGeneratorFactory
 {
     /**
@@ -17,7 +14,7 @@ class GroupGeneratorFactory
     /**
      * @param \Magento\Framework\ObjectManagerInterface $objectManager
      */
-    public function __construct(ObjectManagerInterface $objectManager)
+    public function __construct(\Magento\Framework\ObjectManagerInterface $objectManager)
     {
         $this->objectManager = $objectManager;
     }
@@ -32,10 +29,8 @@ class GroupGeneratorFactory
     public function create($className, array $data = [])
     {
         $generator = $this->objectManager->create($className, $data);
-        if (!$generator instanceof Model\Config\System\GroupGeneratorInterface) {
-            throw new \InvalidArgumentException(
-                $className . ' doesn\'t implement \Tobai\GeoStoreSwitcher\Model\Config\System\GroupGeneratorInterface'
-            );
+        if (!$generator instanceof GroupGeneratorInterface) {
+            throw new \InvalidArgumentException($className . ' doesn\'t implement ' . GroupGeneratorInterface::class);
         }
         return $generator;
     }

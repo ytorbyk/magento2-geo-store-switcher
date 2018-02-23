@@ -4,9 +4,6 @@
  */
 namespace Tobai\GeoStoreSwitcher\Model\Config\System;
 
-use Tobai\GeoStoreSwitcher\Model;
-use Magento\Config\Model\Config\Structure\Element\FlyweightFactory;
-
 class GroupGeneratorAbstract
 {
     /**
@@ -24,8 +21,8 @@ class GroupGeneratorAbstract
      * @param \Tobai\GeoStoreSwitcher\Model\Config\General $generalConfig
      */
     public function __construct(
-        FlyweightFactory $flyweightFactory,
-        Model\Config\General $generalConfig
+        \Magento\Config\Model\Config\Structure\Element\FlyweightFactory $flyweightFactory,
+        \Tobai\GeoStoreSwitcher\Model\Config\General $generalConfig
     ) {
         $this->flyweightFactory = $flyweightFactory;
         $this->generalConfig = $generalConfig;

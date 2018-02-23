@@ -9,12 +9,12 @@ class Request
     /**
      * @var \Magento\Framework\HTTP\PhpEnvironment\RemoteAddress
      */
-    protected $remoteAddress;
+    private $remoteAddress;
 
     /**
      * @var \Magento\Framework\HTTP\Header
      */
-    protected $httpHeader;
+    private $httpHeader;
 
     /**
      * @param \Magento\Framework\HTTP\PhpEnvironment\RemoteAddress $remoteAddress

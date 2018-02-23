@@ -4,17 +4,15 @@
  */
 namespace Tobai\GeoStoreSwitcher\Model\Config\System\GroupGenerator;
 
-use Magento\Config\Model\Config\Structure\Element\FlyweightFactory;
-use Magento\Directory\Model\CountryFactory;
-use Tobai\GeoStoreSwitcher\Model;
-use Tobai\GeoStoreSwitcher\Model\Config\System;
+use Tobai\GeoStoreSwitcher\Model\Config\System\GroupGeneratorAbstract;
+use Tobai\GeoStoreSwitcher\Model\Config\System\GroupGeneratorInterface;
 
-class Country extends System\GroupGeneratorAbstract implements System\GroupGeneratorInterface
+class Country extends GroupGeneratorAbstract implements GroupGeneratorInterface
 {
     /**
      * @var \Magento\Directory\Model\CountryFactory
      */
-    protected $countryFactory;
+    private $countryFactory;
 
     /**
      * @param \Magento\Config\Model\Config\Structure\Element\FlyweightFactory $flyweightFactory
@@ -22,9 +20,9 @@ class Country extends System\GroupGeneratorAbstract implements System\GroupGener
      * @param \Magento\Directory\Model\CountryFactory $countryFactory
      */
     public function __construct(
-        FlyweightFactory $flyweightFactory,
-        Model\Config\General $generalConfig,
-        CountryFactory $countryFactory
+        \Magento\Config\Model\Config\Structure\Element\FlyweightFactory $flyweightFactory,
+        \Tobai\GeoStoreSwitcher\Model\Config\General $generalConfig,
+        \Magento\Directory\Model\CountryFactory $countryFactory
     ) {
         $this->countryFactory = $countryFactory;
         parent::__construct($flyweightFactory, $generalConfig);
@@ -60,7 +58,7 @@ class Country extends System\GroupGeneratorAbstract implements System\GroupGener
                         'showInWebsite' => '1',
                         'showInStore' => '0',
                         'sortOrder' => '1',
-                        'source_model' => 'Tobai\GeoStoreSwitcher\Model\Config\Source\Store',
+                        'source_model' => \Tobai\GeoStoreSwitcher\Model\Config\Source\Store::class,
                         'type' => 'select',
                         'depends' => [
                             'fields' => [
@@ -88,7 +86,7 @@ class Country extends System\GroupGeneratorAbstract implements System\GroupGener
      * @param string $countryCode
      * @return \Magento\Directory\Model\Country
      */
-    protected function getCountry($countryCode)
+    private function getCountry($countryCode)
     {
         return $this->countryFactory->create()->loadByCode($countryCode);
     }

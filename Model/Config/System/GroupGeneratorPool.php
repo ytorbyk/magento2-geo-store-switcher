@@ -9,12 +9,12 @@ class GroupGeneratorPool implements GroupGeneratorInterface
     /**
      * @var \Tobai\GeoStoreSwitcher\Model\Config\System\GroupGeneratorFactory
      */
-    protected $generatorFactory;
+    private $generatorFactory;
 
     /**
      * @var array
      */
-    protected $generators = [];
+    private $generators = [];
 
     /**
      * @param \Tobai\GeoStoreSwitcher\Model\Config\System\GroupGeneratorFactory $generatorFactory

@@ -9,12 +9,12 @@ class GeoIdentifier
     /**
      * @var \Tobai\GeoStoreSwitcher\Model\Config\General
      */
-    protected $generalConfig;
+    private $generalConfig;
 
     /**
      * @var \Tobai\GeoStoreSwitcher\Model\GeoStore\Switcher
      */
-    protected $storeSwitcher;
+    private $storeSwitcher;
 
     /**
      * @param \Tobai\GeoStoreSwitcher\Model\Config\General $generalConfig
@@ -38,8 +38,8 @@ class GeoIdentifier
      */
     public function afterGetValue(\Magento\Framework\App\PageCache\Identifier $identifier, $result)
     {
-        if ($this->generalConfig->isAvailable() && $this->storeSwitcher->getStoreId()) {
-            $result .= $this->storeSwitcher->getStoreId();
+        if ($this->generalConfig->isAvailable() && $this->storeSwitcher->getCurrentStoreId()) {
+            $result .= $this->storeSwitcher->getCurrentStoreId();
         }
         return $result;
     }

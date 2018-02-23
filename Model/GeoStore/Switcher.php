@@ -4,41 +4,32 @@
  */
 namespace Tobai\GeoStoreSwitcher\Model\GeoStore;
 
-use Tobai\GeoIp2;
-use Tobai\GeoStoreSwitcher\Model;
-use Psr\Log\LoggerInterface as Logger;
-
 class Switcher
 {
     /**
      * @var \Tobai\GeoIp2\Model\CountryInterface
      */
-    protected $country;
+    private $country;
 
     /**
      * @var \Tobai\GeoStoreSwitcher\Model\GeoStore\Switcher\RuleInterface
      */
-    protected $rule;
+    private $rule;
 
     /**
      * @var \Tobai\GeoStoreSwitcher\Model\GeoStore\Switcher\PermanentRuleInterface
      */
-    protected $permanentRule;
+    private $permanentRule;
 
     /**
-     * @var Logger
+     * @var \Psr\Log\LoggerInterface
      */
-    protected $logger;
+    private $logger;
 
     /**
      * @var int|bool
      */
-    protected $storeId = false;
-
-    /**
-     * @var bool
-     */
-    protected $isInitialized = false;
+    private $storeId = false;
 
     /**
      * @param \Tobai\GeoIp2\Model\CountryInterface $country
@@ -47,10 +38,10 @@ class Switcher
      * @param \Psr\Log\LoggerInterface $logger
      */
     public function __construct(
-        GeoIp2\Model\CountryInterface $country,
-        Model\GeoStore\Switcher\RuleInterface $rule,
-        Model\GeoStore\Switcher\PermanentRuleInterface $permanentRule,
-        Logger $logger
+        \Tobai\GeoIp2\Model\CountryInterface $country,
+        \Tobai\GeoStoreSwitcher\Model\GeoStore\Switcher\RuleInterface $rule,
+        \Tobai\GeoStoreSwitcher\Model\GeoStore\Switcher\PermanentRuleInterface $permanentRule,
+        \Psr\Log\LoggerInterface $logger
     ) {
         $this->country = $country;
         $this->rule = $rule;
@@ -59,30 +50,25 @@ class Switcher
     }
 
     /**
-     * @return bool
+     * @return int|null
      */
-    public function isInitialized()
+    public function getCurrentStoreId()
     {
-        return $this->isInitialized;
+        return $this->storeId;
     }
 
     /**
-     * @return bool|int
+     * @return void
      */
-    public function getStoreId()
+    public function initCurrentStore()
     {
-        if (!$this->isInitialized) {
-            $countryCode = (string)$this->country->getCountryCode();
-
-            try {
-                $this->storeId = $this->rule->getStoreId($countryCode);
-                $this->storeId = $this->permanentRule->updateStoreId($this->storeId, $countryCode);
-            } catch (\Exception $e) {
-                $this->logger->critical($e);
-            }
-            $this->isInitialized = true;
+        $countryCode = (string)$this->country->getCountryCode();
+        try {
+            $storeId = $this->rule->getStoreId($countryCode);
+            $storeId = $this->permanentRule->updateStoreId($storeId, $countryCode);
+            $this->storeId = $storeId;
+        } catch (\Exception $e) {
+            $this->logger->critical($e);
         }
-
-        return $this->storeId;
     }
 }

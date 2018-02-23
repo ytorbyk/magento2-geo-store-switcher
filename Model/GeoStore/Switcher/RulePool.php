@@ -4,26 +4,26 @@
  */
 namespace Tobai\GeoStoreSwitcher\Model\GeoStore\Switcher;
 
-use Tobai\GeoStoreSwitcher\Model;
-
 class RulePool implements RuleInterface
 {
     /**
      * @var \Tobai\GeoStoreSwitcher\Model\GeoStore\Switcher\RuleFactory
      */
-    protected $ruleFactory;
+    private $ruleFactory;
 
     /**
      * @var array
      */
-    protected $rules = [];
+    private $rules = [];
 
     /**
      * @param \Tobai\GeoStoreSwitcher\Model\GeoStore\Switcher\RuleFactory $ruleFactory
      * @param array $rules
      */
-    public function __construct(Model\GeoStore\Switcher\RuleFactory $ruleFactory, array $rules)
-    {
+    public function __construct(
+        \Tobai\GeoStoreSwitcher\Model\GeoStore\Switcher\RuleFactory $ruleFactory,
+        array $rules
+    ) {
         $this->ruleFactory = $ruleFactory;
         $this->rules = $rules;
     }

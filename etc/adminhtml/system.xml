@@ -12,8 +12,10 @@
         <section id="tobai_geo_store_switcher" translate="label" type="text" sortOrder="100" showInDefault="1" showInWebsite="1" showInStore="1">
             <label>Geo Store Switcher</label>
             <tab>tobai</tab>
-            <resource>Tobai_GeoStoreSwitcher::config_geo_store_switcher</resource>
             <frontend_model>Tobai\GeoStoreSwitcher\Block\Adminhtml\System\Config\Form</frontend_model>
+
+            <resource>Tobai_GeoStoreSwitcher::config_geo_store_switcher</resource>
+
             <group id="general" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
                 <label>Store Switcher Configuration</label>
 

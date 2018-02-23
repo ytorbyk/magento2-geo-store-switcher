@@ -4,9 +4,10 @@
  */
 namespace Tobai\GeoStoreSwitcher\Model\Config\System\GroupGenerator;
 
-use Tobai\GeoStoreSwitcher\Model\Config\System;
+use Tobai\GeoStoreSwitcher\Model\Config\System\GroupGeneratorAbstract;
+use Tobai\GeoStoreSwitcher\Model\Config\System\GroupGeneratorInterface;
 
-class GroupCountry extends System\GroupGeneratorAbstract implements System\GroupGeneratorInterface
+class GroupCountry extends GroupGeneratorAbstract implements GroupGeneratorInterface
 {
     /**
      * @param int $sortOrder
@@ -38,7 +39,7 @@ class GroupCountry extends System\GroupGeneratorAbstract implements System\Group
                         'showInWebsite' => '1',
                         'showInStore' => '0',
                         'sortOrder' => '1',
-                        'source_model' => 'Magento\Directory\Model\Config\Source\Country\Full',
+                        'source_model' => \Magento\Directory\Model\Config\Source\Country\Full::class,
                         'type' => 'multiselect',
                         'depends' => [
                             'fields' => [
@@ -64,7 +65,7 @@ class GroupCountry extends System\GroupGeneratorAbstract implements System\Group
                         'showInWebsite' => '1',
                         'showInStore' => '0',
                         'sortOrder' => '1',
-                        'source_model' => 'Tobai\GeoStoreSwitcher\Model\Config\Source\Store',
+                        'source_model' => \Tobai\GeoStoreSwitcher\Model\Config\Source\Store::class,
                         'type' => 'select',
                         'depends' => [
                             'fields' => [

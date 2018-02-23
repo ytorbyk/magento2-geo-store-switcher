@@ -9,7 +9,7 @@ class Form extends \Magento\Config\Block\System\Config\Form
     /**
      * @var \Tobai\GeoStoreSwitcher\Model\Config\System\GroupGeneratorInterface
      */
-    protected $groupGenerator;
+    private $groupGenerator;
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context

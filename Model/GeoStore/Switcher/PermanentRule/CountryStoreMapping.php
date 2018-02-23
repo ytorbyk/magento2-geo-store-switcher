@@ -4,24 +4,22 @@
  */
 namespace Tobai\GeoStoreSwitcher\Model\GeoStore\Switcher\PermanentRule;
 
-use Tobai\GeoStoreSwitcher\Model;
-
-class CountryStoreMapping implements Model\GeoStore\Switcher\PermanentRuleInterface
+class CountryStoreMapping implements \Tobai\GeoStoreSwitcher\Model\GeoStore\Switcher\PermanentRuleInterface
 {
     /**
      * @var \Tobai\GeoStoreSwitcher\Model\Config\General
      */
-    protected $generalConfig;
+    private $generalConfig;
 
     /**
      * @var \Magento\Store\Api\StoreRepositoryInterface
      */
-    protected $storeRepository;
+    private $storeRepository;
 
     /**
      * @var \Magento\Store\Api\WebsiteRepositoryInterface
      */
-    protected $websiteRepository;
+    private $websiteRepository;
 
     /**
      * @param \Tobai\GeoStoreSwitcher\Model\Config\General $generalConfig
@@ -29,7 +27,7 @@ class CountryStoreMapping implements Model\GeoStore\Switcher\PermanentRuleInterf
      * @param \Magento\Store\Api\WebsiteRepositoryInterface $websiteRepository
      */
     public function __construct(
-        Model\Config\General $generalConfig,
+        \Tobai\GeoStoreSwitcher\Model\Config\General $generalConfig,
         \Magento\Store\Api\StoreRepositoryInterface $storeRepository,
         \Magento\Store\Api\WebsiteRepositoryInterface $websiteRepository
     ) {

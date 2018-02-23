@@ -4,48 +4,37 @@
  */
 namespace Tobai\GeoStoreSwitcher\Model\Config;
 
-use Magento\Store\Api\Data\StoreInterface;
-
 class General
 {
     /**
      * @var \Tobai\GeoStoreSwitcher\Model\Config\ScopeConfig
      */
-    protected $scopeConfig;
-
-    /**
-     * @var \Tobai\GeoStoreSwitcher\Helper\Config\AppState
-     */
-    protected $appStateHelper;
+    private $scopeConfig;
 
     /**
      * @var \Tobai\GeoStoreSwitcher\Helper\Config\Request
      */
-    protected $requestHelper;
+    private $requestHelper;
 
     /**
      * @param \Tobai\GeoStoreSwitcher\Model\Config\ScopeConfig $scopeConfig
-     * @param \Tobai\GeoStoreSwitcher\Helper\Config\AppState $appStateHelper
      * @param \Tobai\GeoStoreSwitcher\Helper\Config\Request $requestHelper
      */
     public function __construct(
         \Tobai\GeoStoreSwitcher\Model\Config\ScopeConfig $scopeConfig,
-        \Tobai\GeoStoreSwitcher\Helper\Config\AppState $appStateHelper,
         \Tobai\GeoStoreSwitcher\Helper\Config\Request $requestHelper
     ) {
         $this->scopeConfig = $scopeConfig;
-        $this->appStateHelper = $appStateHelper;
         $this->requestHelper = $requestHelper;
     }
 
     /**
-     * @param \Magento\Store\Api\Data\StoreInterface $store
-     * @return $this
+     * @param \Tobai\GeoStoreSwitcher\Model\Config\ScopeConfig $scopeConfig
+     * @return void
      */
-    public function setOriginStore(StoreInterface $store)
+    public function setScopeConfig(\Tobai\GeoStoreSwitcher\Model\Config\ScopeConfig $scopeConfig)
     {
-        $this->scopeConfig->setOriginStore($store);
-        return $this;
+        $this->scopeConfig = $scopeConfig;
     }
 
     /**
@@ -53,8 +42,7 @@ class General
      */
     public function isAvailable()
     {
-        return $this->appStateHelper->isFrontendArea()
-            && !$this->requestHelper->isCurrentIp($this->getWhiteIps())
+        return !$this->requestHelper->isCurrentIp($this->getWhiteIps())
             && !$this->requestHelper->isCurrentUserAgent($this->getWhiteUa())
             && $this->isActive();
     }
@@ -64,7 +52,7 @@ class General
      */
     public function isActive()
     {
-        return $this->scopeConfig->getFrontendStoreOrBackendValue('tobai_geo_store_switcher/general/active');
+        return $this->scopeConfig->getStoreValue('tobai_geo_store_switcher/general/active');
     }
 
     /**
@@ -116,7 +104,7 @@ class General
     public function isCountries()
     {
         return $this->isActive()
-            && $this->scopeConfig->getFrontendWebsiteOrBackendValue('tobai_geo_store_switcher/general/by_countries');
+            && $this->scopeConfig->getWebsiteValue('tobai_geo_store_switcher/general/by_countries');
     }
 
     /**
@@ -124,7 +112,7 @@ class General
      */
     public function getCountryList()
     {
-        $countriesData = $this->scopeConfig->getFrontendWebsiteOrBackendValue('tobai_geo_store_switcher/general/country_list');
+        $countriesData = $this->scopeConfig->getWebsiteValue('tobai_geo_store_switcher/general/country_list');
         $countries = $this->isCountries() && !empty($countriesData) ? explode(',', $countriesData) : [];
         return $countries;
     }
@@ -144,7 +132,7 @@ class General
     public function getGroupCount()
     {
         return $this->isActive()
-            ? (int)$this->scopeConfig->getFrontendWebsiteOrBackendValue('tobai_geo_store_switcher/general/by_groups')
+            ? (int)$this->scopeConfig->getWebsiteValue('tobai_geo_store_switcher/general/by_groups')
             : 0;
     }
 
@@ -154,7 +142,7 @@ class General
      */
     public function getGroupCountryList($group)
     {
-        $countriesData = $this->scopeConfig->getFrontendWebsiteOrBackendValue("tobai_geo_store_switcher/group_{$group}/country_list");
+        $countriesData = $this->scopeConfig->getWebsiteValue("tobai_geo_store_switcher/group_{$group}/country_list");
         $countries = !empty($countriesData) ? explode(',', $countriesData) : [];
         return $countries;
     }

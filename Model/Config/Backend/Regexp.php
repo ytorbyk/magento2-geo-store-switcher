@@ -9,7 +9,7 @@ class Regexp extends \Magento\Framework\App\Config\Value
     /**
      * @var \Magento\Framework\Message\ManagerInterface
      */
-    protected $messageManager;
+    private $messageManager;
 
     /**
      * @param \Magento\Framework\Model\Context $context

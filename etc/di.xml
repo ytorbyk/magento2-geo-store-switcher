@@ -5,18 +5,15 @@
  */
 -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
-    <preference for="Magento\Store\Model\StoreResolver" type="Tobai\GeoStoreSwitcher\Model\GeoStoreResolver" />
-    <type name="Magento\Store\Api\WebsiteRepositoryInterface">
-        <plugin name="tobai-geo-store-website-repository" type="Tobai\GeoStoreSwitcher\Plugin\Store\GeoWebsiteRepository" />
+    <preference for="Magento\Framework\App\Config\ScopeCodeResolver" type="Tobai\GeoStoreSwitcher\Model\Config\ScopeCodeResolver" />
+    <type name="Magento\Store\Api\StoreResolverInterface">
+        <plugin name="tobai-geo-store-switcher" type="Tobai\GeoStoreSwitcher\Plugin\StoreResolver" sortOrder="999" />
     </type>
-    <type name="\Magento\Store\Model\Group">
-        <plugin name="tobai-geo-store-default-store" type="Tobai\GeoStoreSwitcher\Plugin\Store\GeoGroup" />
-    </type>
-    <type name="Magento\Store\Model\Website">
-        <plugin name="tobai-geo-store-default-store" type="Tobai\GeoStoreSwitcher\Plugin\Store\GeoWebsite" />
+    <type name="Magento\Framework\App\State">
+        <plugin name="tobai-geo-store-switcher" type="Tobai\GeoStoreSwitcher\Plugin\AppState" />
     </type>
     <type name="Magento\Framework\App\PageCache\Identifier">
-        <plugin name="tobai-geo-store-identifier" type="Tobai\GeoStoreSwitcher\Plugin\PageCache\GeoIdentifier" />
+        <plugin name="tobai-geo-store-switcher" type="Tobai\GeoStoreSwitcher\Plugin\PageCache\GeoIdentifier" />
     </type>
     <type name="Tobai\GeoStoreSwitcher\Model\GeoStore\Switcher\RulePool">
         <arguments>

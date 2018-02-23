@@ -12,8 +12,12 @@ class Store extends \Magento\Store\Model\System\Store
     /**
      * @var \Tobai\GeoStoreSwitcher\Model\Config\ScopeDefiner
      */
-    protected $scopeDefiner;
+    private $scopeDefiner;
 
+    /**
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Tobai\GeoStoreSwitcher\Model\Config\ScopeDefiner $scopeDefiner
+     */
     public function __construct(
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Tobai\GeoStoreSwitcher\Model\Config\ScopeDefiner $scopeDefiner

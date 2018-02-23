@@ -9,7 +9,7 @@ class Website implements \Magento\Framework\Option\ArrayInterface
     /**
      * @var \Magento\Store\Model\System\Store
      */
-    protected $store;
+    private $store;
 
     /**
      * @param \Magento\Store\Model\System\Store $store
