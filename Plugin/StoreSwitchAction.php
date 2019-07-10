@@ -8,7 +8,7 @@ use Magento\Framework\App\Area;
 use Magento\Framework\App\ObjectManager;
 use Tobai\GeoStoreSwitcher\Model\Config\Backend\ScopeConfig as BackendScopeConfig;
 
-class Action
+class StoreSwitchAction
 {
     /**
      * @var \Magento\Store\Model\StoreManagerInterface
@@ -19,11 +19,6 @@ class Action
      * @var \Tobai\GeoStoreSwitcher\Model\GeoStore\Switcher
      */
     private $geoStoreSwitcher;
-
-    /**
-     * @var \Tobai\GeoStoreSwitcher\Model\Config\ScopeCodeResolver
-     */
-    private $scopeCodeResolver;
 
     /**
      * @var \Magento\Framework\Controller\ResultFactory
@@ -52,13 +47,11 @@ class Action
     public function __construct(
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Tobai\GeoStoreSwitcher\Model\GeoStore\Switcher $geoStoreSwitcher,
-        \Tobai\GeoStoreSwitcher\Model\Config\ScopeCodeResolver $scopeCodeResolver,
         \Magento\Framework\Controller\ResultFactory $resultFactory,
         \Magento\Framework\App\RequestInterface $requestHelper
     ) {
         $this->storeManager      = $storeManager;
         $this->geoStoreSwitcher  = $geoStoreSwitcher;
-        $this->scopeCodeResolver = $scopeCodeResolver;
         $this->resultFactory     = $resultFactory;
         $this->requestHelper     = $requestHelper;
     }
