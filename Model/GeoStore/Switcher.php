@@ -4,12 +4,14 @@
  */
 namespace Tobai\GeoStoreSwitcher\Model\GeoStore;
 
+use Magento\Framework\HTTP\PhpEnvironment\Request;
+
 class Switcher
 {
-    /**
-     * @var \Tobai\GeoIp2\Model\CountryInterface
-     */
-    private $country;
+    private const COUNTRY_CODE_HEADER = 'HTTP_CLOUDFRONT_VIEWER_COUNTRY';
+    private const COUNTRY_CODE_DEFAULT = 'SE';
+
+    private Request $httpRequest;
 
     /**
      * @var \Tobai\GeoStoreSwitcher\Model\GeoStore\Switcher\RuleInterface
@@ -32,18 +34,18 @@ class Switcher
     private $storeId = false;
 
     /**
-     * @param \Tobai\GeoIp2\Model\CountryInterface $country
+     * @param Request $httpRequest
      * @param \Tobai\GeoStoreSwitcher\Model\GeoStore\Switcher\RuleInterface $rule
      * @param \Tobai\GeoStoreSwitcher\Model\GeoStore\Switcher\PermanentRuleInterface $permanentRule
      * @param \Psr\Log\LoggerInterface $logger
      */
     public function __construct(
-        \Tobai\GeoIp2\Model\CountryInterface $country,
+        Request $httpRequest,
         \Tobai\GeoStoreSwitcher\Model\GeoStore\Switcher\RuleInterface $rule,
         \Tobai\GeoStoreSwitcher\Model\GeoStore\Switcher\PermanentRuleInterface $permanentRule,
         \Psr\Log\LoggerInterface $logger
     ) {
-        $this->country = $country;
+        $this->httpRequest = $httpRequest;
         $this->rule = $rule;
         $this->permanentRule = $permanentRule;
         $this->logger = $logger;
@@ -62,7 +64,7 @@ class Switcher
      */
     public function initCurrentStore()
     {
-        $countryCode = (string)$this->country->getCountryCode();
+        $countryCode = $this->getCountryCode();
         try {
             $storeId = $this->rule->getStoreId($countryCode);
             $storeId = $this->permanentRule->updateStoreId($storeId, $countryCode);
@@ -70,5 +72,10 @@ class Switcher
         } catch (\Exception $e) {
             $this->logger->critical($e);
         }
+    }
+
+    private function getCountryCode(): string
+    {
+        return $this->httpRequest->getServerValue(self::COUNTRY_CODE_HEADER, self::COUNTRY_CODE_DEFAULT);
     }
 }

@@ -16,11 +16,10 @@ Please follow next instructions to successfully install ToBai Geo Store Switcher
 
 3. Enable module and upgrade with this commands:
 
-        bin/magento module:enable Tobai_GeoIp2
         bin/magento module:enable Tobai_GeoStoreSwitcher
         bin/magento setup:upgrade
 
-4. Check under Stores->Configuration->Advanced->Advanced that the module ToBai_GeoStoreSwitcher is present. There also should be present ToBai_GeoIP2 extension which installs automatically. ToBai Geo Store Switcher is depended on ToBai GeoIP2 extension. If ToBai_GeoStoreSwitcher and ToBai_GeoIP2 display in alphabetical order, you successfully installed the reference module!
+4. Check under Stores->Configuration->Advanced->Advanced that the module ToBai_GeoStoreSwitcher is present. ToBai Geo Store Switcher is depended on Cloudfront.
 
 5. Flush and enable the cache with this commands:
         
@@ -28,10 +27,6 @@ Please follow next instructions to successfully install ToBai Geo Store Switcher
         bin/magento cache:enable
 
 Now you should see at Stores > Configuration new ToBai tab. When you click at this tab you will see Geo Store Switcher section.
-
-<h2>Important</h2>
-
-Since the Store Switcher extension depends on <a href="https://github.com/ytorbyk/magento2-geo-ip2">ToBai_GeoIP2</a> it should be configured previously.
 
 
 <h2>Release notes:</h2>
@@ -56,3 +51,7 @@ Since the Store Switcher extension depends on <a href="https://github.com/ytorby
 
 - Refactored the extension.
 - Removed overwriting default store/store group/website.
+
+<h3>v2.1.0</h3>
+
+- Replaced GeoIP dependecy with Cloudfront
